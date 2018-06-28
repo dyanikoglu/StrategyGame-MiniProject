@@ -96,7 +96,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f0330d31d01797b44850c91e40686b7f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Barracks2DObject: {fileID: 0}
+  Barracks2DObject: {fileID: 1973985664892044, guid: dd871593184ac7145936a9317d81cda5,
+    type: 2}
 --- !u!212 &212327382985976368
 SpriteRenderer:
   m_ObjectHideFlags: 1
