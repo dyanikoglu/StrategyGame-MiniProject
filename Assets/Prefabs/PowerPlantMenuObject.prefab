@@ -73,7 +73,7 @@ MonoBehaviour:
       m_PersistentCalls:
         m_Calls:
         - m_Target: {fileID: 114867055698579722}
-          m_MethodName: Clickedd
+          m_MethodName: OnClick
           m_Mode: 1
           m_Arguments:
             m_ObjectArgument: {fileID: 0}
@@ -97,7 +97,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 61adba987aa116643b59b23d4ce75de2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  PowerPlant2DObject: {fileID: 1142440015888622, guid: ee05062e0a32c7444944d9c349806dde,
+  MapBuildingObject: {fileID: 1142440015888622, guid: ee05062e0a32c7444944d9c349806dde,
     type: 2}
 --- !u!212 &212327382985976368
 SpriteRenderer:

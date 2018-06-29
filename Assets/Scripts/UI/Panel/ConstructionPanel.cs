@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ConstructionPanel : MonoBehaviour
+public class ConstructionPanel : Panel
 {
 
     public GameObject BarracksMenuObject;
@@ -22,11 +22,6 @@ public class ConstructionPanel : MonoBehaviour
 	    FillConstructionPanel();
 	}
 	
-	// Update is called once per frame
-	void Update () {
-		
-	}
-
     public void FillConstructionPanel()
     {
         for (int i = 0; i < RowCount; i++)
