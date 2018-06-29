@@ -20,9 +20,10 @@ GameObject:
   m_Component:
   - component: {fileID: 224153115885691878}
   - component: {fileID: 212327382985976368}
-  - component: {fileID: 114989689665390594}
+  - component: {fileID: 223904610403572870}
   - component: {fileID: 61888949371870930}
   - component: {fileID: 114396977697182994}
+  - component: {fileID: 114989689665390594}
   m_Layer: 0
   m_Name: BarracksMenuObject
   m_TagString: Untagged
@@ -132,7 +133,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 3
+  m_SortingOrder: 6
   m_Sprite: {fileID: 21300000, guid: 8841cc786ee0c1f4d98f8ba21ed13df5, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -143,6 +144,26 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
+--- !u!223 &223904610403572870
+Canvas:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1391962964202844}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_RenderMode: 2
+  m_Camera: {fileID: 0}
+  m_PlaneDistance: 100
+  m_PixelPerfect: 0
+  m_ReceivesEvents: 1
+  m_OverrideSorting: 0
+  m_OverridePixelPerfect: 0
+  m_SortingBucketNormalizedSize: 0
+  m_AdditionalShaderChannelsFlag: 0
+  m_SortingLayerID: 0
+  m_SortingOrder: 6
+  m_TargetDisplay: 0
 --- !u!224 &224153115885691878
 RectTransform:
   m_ObjectHideFlags: 1
