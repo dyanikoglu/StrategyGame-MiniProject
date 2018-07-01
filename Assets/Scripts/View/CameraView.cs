@@ -10,7 +10,7 @@ public class CameraView : View<StrategyGameApplication>
     private Vector3 _difference = Vector3.zero;
     private bool _currentlyDragging = false;
 
-    // Camera Features
+    // Features
     public void Pan()
     {
         // If left mouse is pressed and camera is available to drag, start dragging
@@ -51,14 +51,14 @@ public class CameraView : View<StrategyGameApplication>
         }
     }
 
-    // Camera Events
+    // Events
     private void LateUpdate()
     {
-        Notify("camera.lateUpdate");
+        Pan();
     }
 
     private void Start()
     {
-        Notify("camera.start");
+        app.model.CameraCanBeDragged = true;
     }
 }

@@ -10,6 +10,6 @@ public class BarracksButtonView : ConstructionButtonView {
     // Events
     public override void OnClick()
     {
-        Notify("barracksButton.onClick");
+        Notify("barracksButton.onClick", GetID());
     }
 }

@@ -5,4 +5,5 @@ using thelab.mvc;
 
 public class StrategyGameApplication : BaseApplication<StrategyGameModel, StrategyGameView, StrategyGameController> {
 
+
 }

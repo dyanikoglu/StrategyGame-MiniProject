@@ -6,14 +6,20 @@ using thelab.mvc;
 public class MapView : View<StrategyGameApplication>
 {
 
+    // Events
     public void OnPointerEnter()
     {
-        Notify("map.onPointerEnter");
+        app.model.CameraCanBeDragged = true;
     }
 
     public void OnPointerExit()
     {
-        Notify("map.onPointerExit");
+        app.model.CameraCanBeDragged = false;
+    }
+
+    public void OnClicked()
+    {
+        Notify("map.onClicked");
     }
 
 }

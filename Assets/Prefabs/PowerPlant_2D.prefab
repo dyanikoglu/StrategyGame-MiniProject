@@ -24,6 +24,7 @@ GameObject:
   - component: {fileID: 61812292976078568}
   - component: {fileID: 114718389271525884}
   - component: {fileID: 50357797832579948}
+  - component: {fileID: 114868249568512776}
   m_Layer: 0
   m_Name: PowerPlant_2D
   m_TagString: Untagged
@@ -103,7 +104,38 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6127f06c6b5ec3f46939ff8bd51518d8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _id: 0
   BackgroundSpriteRef: {fileID: 212825271697297186}
+--- !u!114 &114868249568512776
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1142440015888622}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -1862395651, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Delegates:
+  - eventID: 4
+    callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 114718389271525884}
+          m_MethodName: OnClicked
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+      m_TypeName: UnityEngine.EventSystems.EventTrigger+TriggerEvent, UnityEngine.UI,
+        Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+  delegates: []
 --- !u!212 &212825271697297186
 SpriteRenderer:
   m_ObjectHideFlags: 1
@@ -249,5 +281,5 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_SizeDelta: {x: -1.68, y: -2.68}
   m_Pivot: {x: 0, y: 0}

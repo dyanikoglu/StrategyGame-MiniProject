@@ -12,31 +12,11 @@ public class StrategyGameController : Controller<StrategyGameApplication>
     {
         switch (pEvent)
         {
-            // Camera Notifications
-            case "camera.start":
-            {
-                app.model.CameraCanBeDragged = true;
-            }
-                break;
-
-            case "camera.lateUpdate":
-            {
-                ((CameraView)pTarget).Pan();
-            }
-                break;
-            // Camera Notifications End
-
-
             // Map Notifications Start
-            case "map.onPointerEnter":
+            case "map.onClicked":
             {
-                app.model.CameraCanBeDragged = true;
-            }
-                break;
-
-            case "map.onPointerExit":
-            {
-                app.model.CameraCanBeDragged = false;
+                // Hide Details Panel
+                app.view.DetailsPanel.HidePanel();
             }
                 break;
             // Map Notifications End
@@ -45,14 +25,14 @@ public class StrategyGameController : Controller<StrategyGameApplication>
             // Construction Button Notifications Start
             case "barracksButton.onClick":
             {
-                var obj = Instantiate(app.model.BarracksBuilding, app.model.Map.transform);
+                var obj = app.view.MapItemFactory.CreateNewMapItem("Barracks", (int) pData[0]);
                 obj.GetComponent<BarracksBuildingView>().OnBuildModeStart();
             }
                 break;
 
             case "powerplantButton.onClick":
             {
-                var obj = Instantiate(app.model.PowerPlantBuilding, app.model.Map.transform);
+                var obj = app.view.MapItemFactory.CreateNewMapItem("PowerPlant", (int) pData[0]);
                 obj.GetComponent<PowerPlantBuildingView>().OnBuildModeStart();
             }
                 break;
@@ -64,67 +44,46 @@ public class StrategyGameController : Controller<StrategyGameApplication>
                 // Hide UI
                 app.model.ConstructionPanel.GetComponent<PanelView>().HidePanel();
                 app.model.DetailsPanel.GetComponent<PanelView>().HidePanel();
-
-                ((BuildingView) pTarget).SetIsOnBuildMode(true);
-            }
-                break;
-            case "building.onBuildModeStay":
-            {
-                // Get main camera component ref from model
-                var mainCameraRef = app.model.Camera.GetComponent<Camera>();
-
-                // Raytrace to map from mouse position
-                var hit = Physics2D.Raycast(mainCameraRef.ScreenToWorldPoint(Input.mousePosition), Vector2.zero);
-
-                if (hit.collider != null)
-                {
-                    var orientedPoint = new Vector2((int) hit.point.x, (int) hit.point.y);
-                    ((BuildingView) pTarget).transform.position = orientedPoint;
-                }
-
-                // Destroy the item with right click
-                if (Input.GetMouseButtonDown(1))
-                {
-                    ((BuildingView) pTarget).OnBuildModeEnd(false);
-                }
-
-                else if (((BuildingView) pTarget).GetCanBeBuilt() && Input.GetMouseButtonDown(0))
-                {
-                    ((BuildingView) pTarget).OnBuildModeEnd(true);
-                }
             }
                 break;
             case "building.onBuildModeEnd":
             {
                 // Show UI
                 app.model.ConstructionPanel.GetComponent<PanelView>().ShowPanel();
-
-                ((BuildingView) pTarget).SetIsOnBuildMode(false);
-
-                // If buildToCurrentPlace == true, complete build action
-                if ((bool) pData[0])
-                {
-                    ((BuildingView) pTarget).BuildToCurrentPlace();
-                }
-                // Else, destroy the object
-                else
-                {
-                    ((BuildingView) pTarget).CancelBuild();
-                }
             }
                 break;
 
             case "building.onCollisionWithAnotherBuildingStay":
             {
+                // Give feedback to player by changing background color to red
                 ((BuildingView) pTarget).SetBackgroundColor(new Color(0.5f, 0, 0, 0.5f));
-                ((BuildingView) pTarget).SetCanBeBuilt(false);
             }
                 break;
 
             case "building.onCollisionWithAnotherBuildingEnd":
             {
-                ((BuildingView) pTarget).SetBackgroundColor(new Color(1, 1, 1, 0.5f));
-                ((BuildingView) pTarget).SetCanBeBuilt(true);
+                // Give feedback to player by changing background color to white
+                    ((BuildingView) pTarget).SetBackgroundColor(new Color(1, 1, 1, 0.5f));
+            }
+                break;
+
+            case "barracksBuilding.onClicked":
+            {
+                // Set details panel information from clicked object
+                app.view.DetailsPanel.SetDetailsText("Barracks #" + (int) pData[0]);
+                app.view.DetailsPanel.SetDetailsType("Barracks");
+                app.view.DetailsPanel.OnDetailsTextChanged();
+                app.view.DetailsPanel.ShowPanel();
+            }
+                break;
+
+            case "powerplantBuilding.onClicked":
+            {
+                // Set details panel information from clicked object
+                    app.view.DetailsPanel.SetDetailsText("PowerPlant #" + (int) pData[0]);
+                app.view.DetailsPanel.SetDetailsType("PowerPlant");
+                app.view.DetailsPanel.OnDetailsTextChanged();
+                app.view.DetailsPanel.ShowPanel();
             }
                 break;
             // Map Item Notifications End
@@ -132,6 +91,7 @@ public class StrategyGameController : Controller<StrategyGameApplication>
             // Panel Notifications Start
             case "panel.onAnimationPlaying":
             {
+                // Keep animating the panel
                 var rectTransform = ((PanelView) pTarget).GetComponent<RectTransform>();
                 rectTransform.anchoredPosition =
                     new Vector2(Mathf.Lerp(rectTransform.anchoredPosition.x, ((PanelView) pTarget).GetTargetX(), 0.1f),
@@ -147,21 +107,39 @@ public class StrategyGameController : Controller<StrategyGameApplication>
 
             case "constructionPanel.start":
             {
+                // Spawn buttons on construction panel
                 var constructionPanelRef = ((ConstructionPanelView) pTarget);
 
-                for (var i = 0; i < ((ConstructionPanelView) pTarget).RowCount; i++)
+                for (var i = 0; i < constructionPanelRef.RowCount; i++)
                 {
-                    var obj = Instantiate(app.model.BarracksButton, app.model.ConstructionButtonContent.transform);
+                    var obj = app.view.ButtonFactory.CreateNewButton("Barracks");
                     obj.transform.localPosition = new Vector3(
                         obj.transform.localPosition.x + constructionPanelRef.XOffset,
                         obj.transform.localPosition.y - constructionPanelRef.YOffset -
                         constructionPanelRef.YSpacing * i, obj.transform.localPosition.z);
 
-                    obj = Instantiate(app.model.PowerPlantButton, app.model.ConstructionButtonContent.transform);
+                    obj = app.view.ButtonFactory.CreateNewButton("PowerPlant");
                     obj.transform.localPosition = new Vector3(
                         obj.transform.localPosition.x + constructionPanelRef.XOffset + constructionPanelRef.XSpacing,
                         obj.transform.localPosition.y - constructionPanelRef.YOffset -
                         constructionPanelRef.YSpacing * i, obj.transform.localPosition.z);
+                }
+            }
+                break;
+
+            case "detailsPanelView.onDetailsTypeChanged":
+            {
+                app.model.DetailsPanelText.text = app.view.DetailsPanel.GetDetailsText();
+
+                if (app.view.DetailsPanel.GetDetailsType() == "Barracks")
+                {
+                    app.model.DetailsPanelBarracksSprite.SetActive(true);
+                    app.model.DetailsPanelPowerPlantSprite.SetActive(false);
+                }
+                else if (app.view.DetailsPanel.GetDetailsType() == "PowerPlant")
+                {
+                    app.model.DetailsPanelBarracksSprite.SetActive(false);
+                    app.model.DetailsPanelPowerPlantSprite.SetActive(true);
                 }
             }
                 break;

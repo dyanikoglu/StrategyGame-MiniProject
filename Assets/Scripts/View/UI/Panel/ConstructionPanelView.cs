@@ -12,6 +12,7 @@ public class ConstructionPanelView : PanelView
     public int RowCount;
 
     // Features
+    // None..
 
     // Events
 

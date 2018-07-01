@@ -38,4 +38,13 @@ public class StrategyGameView : View<StrategyGameApplication> {
     /// Reference to the DetailsPanel view.
     public DetailsPanelView DetailsPanel { get { return _detailsPanel = Assert<DetailsPanelView>(_detailsPanel); } }
     private DetailsPanelView _detailsPanel;
+
+
+    /// Reference to the Panel view.
+    public ButtonFactoryView ButtonFactory { get { return _buttonFactory = Assert<ButtonFactoryView>(_buttonFactory); } }
+    private ButtonFactoryView _buttonFactory;
+
+    /// Reference to the Panel view.
+    public MapItemFactoryView MapItemFactory { get { return _mapItemFactory = Assert<MapItemFactoryView>(_mapItemFactory); } }
+    private MapItemFactoryView _mapItemFactory;
 }
