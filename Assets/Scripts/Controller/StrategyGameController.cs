@@ -25,15 +25,15 @@ public class StrategyGameController : Controller<StrategyGameApplication>
             // Construction Button Notifications Start
             case "barracksButton.onClick":
             {
-                var obj = app.view.MapItemFactory.CreateNewMapItem("Barracks", (int) pData[0]);
-                obj.GetComponent<BarracksBuildingView>().OnBuildModeStart();
+                // Spawn new barracks building
+                app.view.MapItemFactory.CreateNewMapItem(MapItem.Type.Barracks, (int) pData[0]);
             }
                 break;
 
             case "powerplantButton.onClick":
             {
-                var obj = app.view.MapItemFactory.CreateNewMapItem("PowerPlant", (int) pData[0]);
-                obj.GetComponent<PowerPlantBuildingView>().OnBuildModeStart();
+                // Spawn new powerplant building
+                app.view.MapItemFactory.CreateNewMapItem(MapItem.Type.PowerPlant, (int) pData[0]);
             }
                 break;
             // Construction Button Notifications End
@@ -42,14 +42,14 @@ public class StrategyGameController : Controller<StrategyGameApplication>
             case "building.onBuildModeStart":
             {
                 // Hide UI
-                app.model.ConstructionPanel.GetComponent<PanelView>().HidePanel();
-                app.model.DetailsPanel.GetComponent<PanelView>().HidePanel();
+                app.view.ConstructionPanel.HidePanel();
+                app.view.DetailsPanel.HidePanel();
             }
                 break;
             case "building.onBuildModeEnd":
             {
                 // Show UI
-                app.model.ConstructionPanel.GetComponent<PanelView>().ShowPanel();
+                app.view.ConstructionPanel.ShowPanel();
             }
                 break;
 
@@ -63,16 +63,14 @@ public class StrategyGameController : Controller<StrategyGameApplication>
             case "building.onCollisionWithAnotherBuildingEnd":
             {
                 // Give feedback to player by changing background color to white
-                    ((BuildingView) pTarget).SetBackgroundColor(new Color(1, 1, 1, 0.5f));
+                ((BuildingView) pTarget).SetBackgroundColor(new Color(1, 1, 1, 0.5f));
             }
                 break;
 
             case "barracksBuilding.onClicked":
             {
                 // Set details panel information from clicked object
-                app.view.DetailsPanel.SetDetailsText("Barracks #" + (int) pData[0]);
-                app.view.DetailsPanel.SetDetailsType("Barracks");
-                app.view.DetailsPanel.OnDetailsTextChanged();
+                app.view.DetailsPanel.SetDetails(MapItem.Type.Barracks, (int) pData[0]);
                 app.view.DetailsPanel.ShowPanel();
             }
                 break;
@@ -80,9 +78,8 @@ public class StrategyGameController : Controller<StrategyGameApplication>
             case "powerplantBuilding.onClicked":
             {
                 // Set details panel information from clicked object
-                    app.view.DetailsPanel.SetDetailsText("PowerPlant #" + (int) pData[0]);
-                app.view.DetailsPanel.SetDetailsType("PowerPlant");
-                app.view.DetailsPanel.OnDetailsTextChanged();
+
+                app.view.DetailsPanel.SetDetails(MapItem.Type.PowerPlant, (int) pData[0]);
                 app.view.DetailsPanel.ShowPanel();
             }
                 break;
@@ -108,38 +105,49 @@ public class StrategyGameController : Controller<StrategyGameApplication>
             case "constructionPanel.start":
             {
                 // Spawn buttons on construction panel
-                var constructionPanelRef = ((ConstructionPanelView) pTarget);
 
-                for (var i = 0; i < constructionPanelRef.RowCount; i++)
+                for (var i = 0; i < app.view.ConstructionPanel.RowCount; i++)
                 {
                     var obj = app.view.ButtonFactory.CreateNewButton("Barracks");
                     obj.transform.localPosition = new Vector3(
-                        obj.transform.localPosition.x + constructionPanelRef.XOffset,
-                        obj.transform.localPosition.y - constructionPanelRef.YOffset -
-                        constructionPanelRef.YSpacing * i, obj.transform.localPosition.z);
+                        obj.transform.localPosition.x + app.view.ConstructionPanel.XOffset,
+                        obj.transform.localPosition.y - app.view.ConstructionPanel.YOffset -
+                        app.view.ConstructionPanel.YSpacing * i, obj.transform.localPosition.z);
 
                     obj = app.view.ButtonFactory.CreateNewButton("PowerPlant");
                     obj.transform.localPosition = new Vector3(
-                        obj.transform.localPosition.x + constructionPanelRef.XOffset + constructionPanelRef.XSpacing,
-                        obj.transform.localPosition.y - constructionPanelRef.YOffset -
-                        constructionPanelRef.YSpacing * i, obj.transform.localPosition.z);
+                        obj.transform.localPosition.x + app.view.ConstructionPanel.XOffset +
+                        app.view.ConstructionPanel.XSpacing,
+                        obj.transform.localPosition.y - app.view.ConstructionPanel.YOffset -
+                        app.view.ConstructionPanel.YSpacing * i, obj.transform.localPosition.z);
                 }
             }
                 break;
 
-            case "detailsPanelView.onDetailsTypeChanged":
+            case "detailsPanelView.onDetailsChanged":
             {
+                // Variables in details panel changed, reflect changes to UI
+
                 app.model.DetailsPanelText.text = app.view.DetailsPanel.GetDetailsText();
 
-                if (app.view.DetailsPanel.GetDetailsType() == "Barracks")
+                switch (app.view.DetailsPanel.GetDetailsType())
                 {
-                    app.model.DetailsPanelBarracksSprite.SetActive(true);
-                    app.model.DetailsPanelPowerPlantSprite.SetActive(false);
-                }
-                else if (app.view.DetailsPanel.GetDetailsType() == "PowerPlant")
-                {
-                    app.model.DetailsPanelBarracksSprite.SetActive(false);
-                    app.model.DetailsPanelPowerPlantSprite.SetActive(true);
+                    case MapItem.Type.Barracks:
+                        app.model.DetailsPanelBarracksSprite.SetActive(true);
+                        app.model.DetailsPanelPowerPlantSprite.SetActive(false);
+                        break;
+                    case MapItem.Type.PowerPlant:
+                        app.model.DetailsPanelBarracksSprite.SetActive(false);
+                        app.model.DetailsPanelPowerPlantSprite.SetActive(true);
+                        break;
+                    case MapItem.Type.Soldier:
+                        app.model.DetailsPanelBarracksSprite.SetActive(false);
+                        app.model.DetailsPanelPowerPlantSprite.SetActive(false);
+                        break;
+                    default:
+                        app.model.DetailsPanelBarracksSprite.SetActive(false);
+                        app.model.DetailsPanelBarracksSprite.SetActive(false);
+                        break;
                 }
             }
                 break;

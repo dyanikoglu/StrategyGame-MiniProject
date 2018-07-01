@@ -12,16 +12,13 @@ public class StrategyGameModel : Model<StrategyGameApplication>
     public GameObject Map;
     public GameObject Camera;
     public GameObject ConstructionButtonContent;
-    public GameObject DetailsPanel;
-    public GameObject ConstructionPanel;
-    public ButtonFactoryView ButtonFactory;
-    public GameObject MapItemFactory;
     public Text DetailsPanelText;
     public GameObject DetailsPanelBarracksSprite;
     public GameObject DetailsPanelPowerPlantSprite;
 
     // Prefab References
-    [Header("Prefab References")] public GameObject PowerPlantButton;
+    [Header("Prefab References")]
+    public GameObject PowerPlantButton;
     public GameObject BarracksButton;
     public GameObject PowerPlantBuilding;
     public GameObject BarracksBuilding;

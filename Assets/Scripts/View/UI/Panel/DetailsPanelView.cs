@@ -6,32 +6,45 @@ public class DetailsPanelView : PanelView
 {
     // Variables
     private string _detailsText;
-    private string _detailsType;
+    private MapItem.Type _detailsType;
 
     // Features
-    public void SetDetailsText(string s)
-    {
-        _detailsText = s;
-    }
-
     public string GetDetailsText()
     {
         return _detailsText;
     }
 
-    public void SetDetailsType(string s)
+    public void SetDetails(MapItem.Type detailsType, int id)
     {
-        _detailsType = s;
+        _detailsType = detailsType;
+
+        switch (detailsType)
+        {
+            case MapItem.Type.Barracks:
+                _detailsText = "Barracks #" + id;
+                break;
+            case MapItem.Type.PowerPlant:
+                _detailsText = "PowerPlant #" + id;
+                break;
+            case MapItem.Type.Soldier:
+                _detailsText = "Soldier #" + id;
+                break;
+            default:
+                _detailsText = "";
+                break;
+        }
+
+        OnDetailsChanged();
     }
 
-    public string GetDetailsType()
+    public MapItem.Type GetDetailsType()
     {
         return _detailsType;
     }
 
     // Events
-    public void OnDetailsTextChanged()
+    public void OnDetailsChanged()
     {
-        Notify("detailsPanelView.onDetailsTypeChanged");
+        Notify("detailsPanelView.onDetailsChanged");
     }
 }

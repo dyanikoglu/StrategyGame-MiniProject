@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using thelab.mvc;
@@ -6,23 +7,25 @@ using thelab.mvc;
 public class MapItemFactoryView : View<StrategyGameApplication> {
 
     // Features
-    public GameObject CreateNewMapItem(string mapItemType, int id)
+    public GameObject CreateNewMapItem(MapItem.Type mapItemType, int id)
     {
-        if (mapItemType.Equals("Barracks"))
+        switch (mapItemType)
         {
-            var newObject = Instantiate(app.model.BarracksBuilding, app.model.Map.transform);
-            newObject.GetComponent<MapItemView>().SetID(id);
-            return newObject;
-        }
-        else if (mapItemType.Equals("PowerPlant"))
-        {
-            var newObject = Instantiate(app.model.PowerPlantBuilding, app.model.Map.transform);
-            newObject.GetComponent<MapItemView>().SetID(id);
-            return newObject;
-        }
-        else
-        {
-            return null;
+            case MapItem.Type.Barracks:
+                var newBarracks = Instantiate(app.model.BarracksBuilding, app.model.Map.transform);
+                newBarracks.GetComponent<MapItemView>().SetID(id);
+                newBarracks.GetComponent<BuildingView>().OnBuildModeStart();
+                return newBarracks;
+            case MapItem.Type.PowerPlant:
+                var newPowerPlant = Instantiate(app.model.PowerPlantBuilding, app.model.Map.transform);
+                newPowerPlant.GetComponent<MapItemView>().SetID(id);
+                newPowerPlant.GetComponent<BuildingView>().OnBuildModeStart();
+                return newPowerPlant;
+            case MapItem.Type.Soldier:
+                // TODO
+                return null;
+            default:
+                return null;
         }
     }
 }

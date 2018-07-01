@@ -359,9 +359,9 @@ MonoBehaviour:
   Map: {fileID: 718341}
   Camera: {fileID: 519420028}
   ConstructionButtonContent: {fileID: 1486664200}
-  DetailsPanel: {fileID: 1948677791}
-  ConstructionPanel: {fileID: 129955722}
-  ButtonFactory: {fileID: 0}
+  DetailsPanel: {fileID: 1948677797}
+  ConstructionPanel: {fileID: 129955729}
+  ButtonFactory: {fileID: 1336600015}
   MapItemFactory: {fileID: 1734715347}
   DetailsPanelText: {fileID: 1789131110}
   DetailsPanelBarracksSprite: {fileID: 871211585}
