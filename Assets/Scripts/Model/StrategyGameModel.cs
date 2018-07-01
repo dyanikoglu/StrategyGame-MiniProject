@@ -20,18 +20,7 @@ public class StrategyGameModel : Model<StrategyGameApplication> {
     public GameObject PowerPlantBuilding;
     public GameObject BarracksBuilding;
 
-    // Camera Variables
-    [HideInInspector]
-    public Vector3 CameraOrigin;
-    [HideInInspector]
-    public Vector3 CameraDifference;
-    [HideInInspector]
-    public bool CameraCurrentlyDragging;
+    // Global
     [HideInInspector]
     public bool CameraCanBeDragged;
-    [Header("Camera View Variables")]
-    public BoxCollider2D CameraTilemapBounds;
-    /////
-
-
 }

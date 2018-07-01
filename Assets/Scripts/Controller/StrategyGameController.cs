@@ -16,46 +16,12 @@ public class StrategyGameController : Controller<StrategyGameApplication>
             case "camera.start":
             {
                 app.model.CameraCanBeDragged = true;
-                app.model.CameraCurrentlyDragging = false;
             }
                 break;
+
             case "camera.lateUpdate":
             {
-                // Get main camera component ref from model
-                var mainCameraRef = app.model.Camera.GetComponent<Camera>();
-
-                // If left mouse is pressed and camera is available to drag, start dragging
-                if (Input.GetMouseButton(0) && app.model.CameraCanBeDragged)
-                {
-                    app.model.CameraDifference = (mainCameraRef.ScreenToWorldPoint(Input.mousePosition)) -
-                                                 mainCameraRef.transform.position;
-                    if (app.model.CameraCurrentlyDragging == false)
-                    {
-                        app.model.CameraCurrentlyDragging = true;
-                        app.model.CameraOrigin = mainCameraRef.ScreenToWorldPoint(Input.mousePosition);
-                    }
-                }
-                // Camera is not available to drag
-                else if (!Input.GetMouseButton(0))
-                {
-                    app.model.CameraCurrentlyDragging = false;
-                }
-
-                // Update drag position
-                if (app.model.CameraCurrentlyDragging)
-                {
-                    mainCameraRef.transform.position = app.model.CameraOrigin - app.model.CameraDifference;
-                }
-
-                // Clamp camera movement to map bounds
-                var vertExtent = mainCameraRef.orthographicSize;
-                var horizExtent = vertExtent * Screen.width / Screen.height;
-                var linkedCameraPos = mainCameraRef.transform.position;
-                var areaBounds = app.model.CameraTilemapBounds.bounds;
-                mainCameraRef.transform.position = new Vector3(
-                    Mathf.Clamp(linkedCameraPos.x, areaBounds.min.x + horizExtent, areaBounds.max.x - horizExtent),
-                    Mathf.Clamp(linkedCameraPos.y, areaBounds.min.y + vertExtent, areaBounds.max.y - vertExtent),
-                    linkedCameraPos.z);
+                ((CameraView)pTarget).Pan();
             }
                 break;
             // Camera Notifications End
