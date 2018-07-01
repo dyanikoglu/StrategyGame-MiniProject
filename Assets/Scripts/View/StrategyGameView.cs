@@ -26,4 +26,16 @@ public class StrategyGameView : View<StrategyGameApplication> {
     /// Reference to the PowerPlantButton view.
     public PowerPlantButtonView PowerPlantButton { get { return _powerPlantButton = Assert<PowerPlantButtonView>(_powerPlantButton); } }
     private PowerPlantButtonView _powerPlantButton;
+
+    /// Reference to the Panel view.
+    public PanelView Panel { get { return _panel = Assert<PanelView>(_panel); } }
+    private PanelView _panel;
+
+    /// Reference to the ConstructionPanel view.
+    public ConstructionPanelView ConstructionPanel { get { return _constructionPanel = Assert<ConstructionPanelView>(_constructionPanel); } }
+    private ConstructionPanelView _constructionPanel;
+
+    /// Reference to the DetailsPanel view.
+    public DetailsPanelView DetailsPanel { get { return _detailsPanel = Assert<DetailsPanelView>(_detailsPanel); } }
+    private DetailsPanelView _detailsPanel;
 }

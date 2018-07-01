@@ -2,8 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class DetailsPanel : Panel
+public class DetailsPanelView : PanelView
 {
 
-
+	
 }

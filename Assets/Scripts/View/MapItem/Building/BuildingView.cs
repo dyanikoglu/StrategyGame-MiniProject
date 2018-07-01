@@ -34,7 +34,7 @@ public class BuildingView : MapItemView
 
     public void BuildToCurrentPlace()
     {
-        _placedOnMap = true;
+        SetIsPlacedOnMap(true);
     }
 
     public void CancelBuild()
@@ -45,7 +45,7 @@ public class BuildingView : MapItemView
     // Events
     private void Update()
     {
-        if (!_placedOnMap && _isOnBuildMode)
+        if (!GetIsPlacedOnMap() && _isOnBuildMode)
         {
             Notify("building.onBuildModeStay");
         }
@@ -63,7 +63,7 @@ public class BuildingView : MapItemView
 
     private void OnTriggerStay2D(Collider2D collider)
     {
-        if (!_placedOnMap && collider.GetComponent<MapItemView>())
+        if (!GetIsPlacedOnMap() && collider.GetComponent<MapItemView>())
         {
             Notify("building.onCollisionWithAnotherBuildingStay");
         }
@@ -71,7 +71,7 @@ public class BuildingView : MapItemView
 
     private void OnTriggerExit2D(Collider2D collider)
     {
-        if (!_placedOnMap && collider.GetComponent<MapItemView>())
+        if (!GetIsPlacedOnMap() && collider.GetComponent<MapItemView>())
         {
             Notify("building.onCollisionWithAnotherBuildingEnd");
         }
@@ -79,7 +79,6 @@ public class BuildingView : MapItemView
 
     public override void OnClicked() 
     {
-
+        // TODO: Add onclick action
     }
-
 }

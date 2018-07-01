@@ -9,6 +9,9 @@ public class StrategyGameModel : Model<StrategyGameApplication> {
     [Header("Runtime Gameobject References")]
     public GameObject Map;
     public GameObject Camera;
+    public GameObject ConstructionButtonContent;
+    public GameObject DetailsPanel;
+    public GameObject ConstructionPanel;
 
     // Prefab References
     [Header("Prefab References")]
