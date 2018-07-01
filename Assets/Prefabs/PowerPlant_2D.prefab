@@ -22,7 +22,7 @@ GameObject:
   - component: {fileID: 212972287434592468}
   - component: {fileID: 223876516305130060}
   - component: {fileID: 61812292976078568}
-  - component: {fileID: 114554078858800542}
+  - component: {fileID: 114718389271525884}
   - component: {fileID: 50357797832579948}
   m_Layer: 0
   m_Name: PowerPlant_2D
@@ -92,7 +92,7 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1.9218299, y: 2.927503}
   m_EdgeRadius: 0
---- !u!114 &114554078858800542
+--- !u!114 &114718389271525884
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -100,10 +100,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 1142440015888622}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 200bffd2e2071b8439d7d7d93dc522ef, type: 3}
+  m_Script: {fileID: 11500000, guid: 6127f06c6b5ec3f46939ff8bd51518d8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  background: {fileID: 212825271697297186}
+  BackgroundSpriteRef: {fileID: 212825271697297186}
 --- !u!212 &212825271697297186
 SpriteRenderer:
   m_ObjectHideFlags: 1

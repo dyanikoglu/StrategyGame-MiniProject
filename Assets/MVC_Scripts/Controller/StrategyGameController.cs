@@ -80,17 +80,86 @@ public class StrategyGameController : Controller<StrategyGameApplication>
             case "barracksButton.onClick":
             {
                 var obj = Instantiate(app.model.BarracksBuilding, app.model.Map.transform);
-                obj.GetComponent<BarracksItem>().SetToBuildMode();
+                obj.GetComponent<BarracksBuildingView>().OnBuildModeStart();
             }
                 break;
 
             case "powerplantButton.onClick":
-            {
+            {   
                 var obj = Instantiate(app.model.PowerPlantBuilding, app.model.Map.transform);
-                obj.GetComponent<PowerPlantItem>().SetToBuildMode();
+                obj.GetComponent<PowerPlantBuildingView>().OnBuildModeStart();
             }
                 break;
             // Construction Button Notifications End
+
+            // Map Item Notifications Start
+            case "building.onBuildModeStart":
+            {
+                // TODO: HideUI
+
+                ((BuildingView) pTarget).SetIsOnBuildMode(true);
+            }
+                break;
+            case "building.onBuildModeStay":
+            {
+                // Get main camera component ref from model
+                var mainCameraRef = app.model.Camera.GetComponent<Camera>();
+                
+                // Raytrace to map from mouse position
+                var hit = Physics2D.Raycast(mainCameraRef.ScreenToWorldPoint(Input.mousePosition), Vector2.zero);
+
+                if (hit.collider != null)
+                {
+                    var orientedPoint = new Vector2((int) hit.point.x, (int) hit.point.y);
+                    ((BuildingView)pTarget).transform.position = orientedPoint;
+                }
+
+                // Destroy the item with right click
+                if (Input.GetMouseButtonDown(1))
+                {
+                    ((BuildingView) pTarget).OnBuildModeEnd(false);
+                }
+
+                else if (((BuildingView) pTarget).GetCanBeBuilt() && Input.GetMouseButtonDown(0))
+                {
+                    ((BuildingView) pTarget).OnBuildModeEnd(true);
+                }
+            }
+                break;
+            case "building.onBuildModeEnd":
+            {
+                // TODO: ShowUI
+
+                ((BuildingView) pTarget).SetIsOnBuildMode(false);
+
+                // If buildToCurrentPlace == true, complete build action
+                if ((bool) pData[0])
+                {
+                    ((BuildingView) pTarget).BuildToCurrentPlace();
+                }
+                // Else, destroy the object
+                else
+                {
+                    ((BuildingView) pTarget).CancelBuild();
+                }
+            }
+                break;
+
+            case "building.onCollisionWithAnotherBuildingStay":
+            {
+                ((BuildingView) pTarget).SetBackgroundColor(new Color(0.5f, 0, 0, 0.5f));
+                ((BuildingView) pTarget).SetCanBeBuilt(false);
+            }
+                break;
+
+            case "building.onCollisionWithAnotherBuildingEnd":
+            {
+                ((BuildingView) pTarget).SetBackgroundColor(new Color(1, 1, 1, 0.5f));
+                ((BuildingView) pTarget).SetCanBeBuilt(true);
+            }
+                break;
+            // Map Item Notifications End
+
 
 
 
