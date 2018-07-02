@@ -23,6 +23,18 @@ public class StrategyGameController : Controller<StrategyGameApplication>
 
 
             // Construction Button Notifications Start
+            case "button.onHoverStart":
+            {
+                ((ConstructionButtonView)pTarget).SetColor(Color.red);
+            }
+                break;
+
+            case "button.onHoverEnd":
+            {
+                ((ConstructionButtonView)pTarget).SetColor(Color.white);
+            }
+                break;
+
             case "barracksButton.onClicked":
             {
                 // Spawn new barracks building
@@ -39,7 +51,22 @@ public class StrategyGameController : Controller<StrategyGameApplication>
 
             case "soldierButton.onClicked":
             {
-                app.view.MapItemFactory.CreateNewMapItem(MapItem.Type.Soldier, app.model.SoldierID++);
+                var newSoldier = app.view.MapItemFactory.CreateNewMapItem(MapItem.Type.Soldier, app.model.SoldierID++);
+                
+                // If a barracks map item is still selected, spawn this new soldier near it on closest available tile. Otherwise, destroy it back.
+                if ((BarracksBuildingView) app.model.selectedItem)
+                {
+                    var barracksPosition = app.model.selectedItem.GetComponent<RectTransform>().anchoredPosition;
+                    // If we can't find a tile to spawn this soldier, destroy it back
+                    if (!newSoldier.GetComponent<SoldierView>().FindATileToSpawn(barracksPosition))
+                    {
+                        Destroy(newSoldier);
+                    }
+                }
+                else
+                {
+                    Destroy(newSoldier);
+                }
             }
                 break;
             // Construction Button Notifications End

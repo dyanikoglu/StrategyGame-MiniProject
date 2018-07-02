@@ -19,6 +19,21 @@ public abstract class ConstructionButtonView : View<StrategyGameApplication> {
         _id = id;
     }
 
+    public void SetColor(Color c)
+    {
+        GetComponent<SpriteRenderer>().color = c;
+    }
+
     // Events
     public abstract void OnClicked();
+
+    public void OnHoverStart()
+    {
+        Notify("button.onHoverStart");
+    }
+
+    public void OnHoverEnd()
+    {
+        Notify("button.onHoverEnd");
+    }
 }
