@@ -15,6 +15,8 @@ public class StrategyGameModel : Model<StrategyGameApplication>
     public Text DetailsPanelText;
     public GameObject DetailsPanelBarracksSprite;
     public GameObject DetailsPanelPowerPlantSprite;
+    public GameObject DetailsPanelSoldierSprite;
+    public GameObject DetailsPanelSoldierButton;
 
     // Prefab References
     [Header("Prefab References")]
@@ -22,9 +24,12 @@ public class StrategyGameModel : Model<StrategyGameApplication>
     public GameObject BarracksButton;
     public GameObject PowerPlantBuilding;
     public GameObject BarracksBuilding;
+    public GameObject SoldierMapItem;
 
     // Global
     [HideInInspector] public bool CameraCanBeDragged;
     [HideInInspector] public int BarracksID;
     [HideInInspector] public int PowerPlantID;
+    [HideInInspector] public int SoldierID;
+    [HideInInspector] public MapItemView selectedItem;
 }

@@ -8,8 +8,8 @@ public class PowerPlantButtonView : ConstructionButtonView
     // None..
 
     // Events
-    public override void OnClick()
+    public override void OnClicked()
     {
-        Notify("powerplantButton.onClick", GetID());
+        Notify("powerplantButton.onClicked", GetID());
     }
 }

@@ -20,10 +20,10 @@ GameObject:
   m_Component:
   - component: {fileID: 224153115885691878}
   - component: {fileID: 212327382985976368}
-  - component: {fileID: 223904610403572870}
   - component: {fileID: 61888949371870930}
   - component: {fileID: 114396977697182994}
   - component: {fileID: 114017692941302850}
+  - component: {fileID: 223541414108374566}
   m_Layer: 0
   m_Name: BarracksButton
   m_TagString: Untagged
@@ -67,6 +67,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3be14781650c38c4b96d184862ab2aea, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _id: 0
 --- !u!114 &114396977697182994
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -84,7 +85,7 @@ MonoBehaviour:
       m_PersistentCalls:
         m_Calls:
         - m_Target: {fileID: 114017692941302850}
-          m_MethodName: OnClick
+          m_MethodName: OnClicked
           m_Mode: 1
           m_Arguments:
             m_ObjectArgument: {fileID: 0}
@@ -142,7 +143,7 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
---- !u!223 &223904610403572870
+--- !u!223 &223541414108374566
 Canvas:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -160,7 +161,7 @@ Canvas:
   m_SortingBucketNormalizedSize: 0
   m_AdditionalShaderChannelsFlag: 0
   m_SortingLayerID: 0
-  m_SortingOrder: 6
+  m_SortingOrder: 0
   m_TargetDisplay: 0
 --- !u!224 &224153115885691878
 RectTransform:

@@ -2,10 +2,11 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SoldierView : MapItemView
+public class SoldierButtonView : ConstructionButtonView
 {
+
     public override void OnClicked()
     {
-        Notify("soldierMapItem.onClicked", GetID());
+        Notify("soldierButton.onClicked");
     }
 }

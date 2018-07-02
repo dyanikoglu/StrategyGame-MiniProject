@@ -20,5 +20,5 @@ public abstract class ConstructionButtonView : View<StrategyGameApplication> {
     }
 
     // Events
-    public abstract void OnClick();
+    public abstract void OnClicked();
 }

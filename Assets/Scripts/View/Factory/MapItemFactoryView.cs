@@ -22,8 +22,9 @@ public class MapItemFactoryView : View<StrategyGameApplication> {
                 newPowerPlant.GetComponent<BuildingView>().OnBuildModeStart();
                 return newPowerPlant;
             case MapItem.Type.Soldier:
-                // TODO
-                return null;
+                var newSoldier = Instantiate(app.model.SoldierMapItem, app.model.Map.transform);
+                newSoldier.GetComponent<MapItemView>().SetID(id);
+                return newSoldier;
             default:
                 return null;
         }

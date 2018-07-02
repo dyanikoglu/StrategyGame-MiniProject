@@ -23,20 +23,27 @@ public class StrategyGameController : Controller<StrategyGameApplication>
 
 
             // Construction Button Notifications Start
-            case "barracksButton.onClick":
+            case "barracksButton.onClicked":
             {
                 // Spawn new barracks building
                 app.view.MapItemFactory.CreateNewMapItem(MapItem.Type.Barracks, (int) pData[0]);
             }
                 break;
 
-            case "powerplantButton.onClick":
+            case "powerplantButton.onClicked":
             {
                 // Spawn new powerplant building
                 app.view.MapItemFactory.CreateNewMapItem(MapItem.Type.PowerPlant, (int) pData[0]);
             }
                 break;
+
+            case "soldierButton.onClicked":
+            {
+                app.view.MapItemFactory.CreateNewMapItem(MapItem.Type.Soldier, app.model.SoldierID++);
+            }
+                break;
             // Construction Button Notifications End
+
 
             // Map Item Notifications Start
             case "building.onBuildModeStart":
@@ -71,6 +78,8 @@ public class StrategyGameController : Controller<StrategyGameApplication>
             {
                 // Set details panel information from clicked object
                 app.view.DetailsPanel.SetDetails(MapItem.Type.Barracks, (int) pData[0]);
+                app.model.selectedItem = (MapItemView) pTarget;
+                app.model.DetailsPanelSoldierButton.SetActive(true);
                 app.view.DetailsPanel.ShowPanel();
             }
                 break;
@@ -80,10 +89,23 @@ public class StrategyGameController : Controller<StrategyGameApplication>
                 // Set details panel information from clicked object
 
                 app.view.DetailsPanel.SetDetails(MapItem.Type.PowerPlant, (int) pData[0]);
+                app.model.selectedItem = (MapItemView) pTarget;
+                app.model.DetailsPanelSoldierButton.SetActive(false);
                 app.view.DetailsPanel.ShowPanel();
             }
                 break;
+
+            case "soldierMapItem.onClicked":
+            {
+                app.view.DetailsPanel.SetDetails(MapItem.Type.Soldier, (int) pData[0]);
+                app.model.selectedItem = (MapItemView) pTarget;
+                app.model.DetailsPanelSoldierButton.SetActive(false);
+                app.view.DetailsPanel.ShowPanel();
+                // TODO
+            }
+                break;
             // Map Item Notifications End
+
 
             // Panel Notifications Start
             case "panel.onAnimationPlaying":
@@ -135,18 +157,22 @@ public class StrategyGameController : Controller<StrategyGameApplication>
                     case MapItem.Type.Barracks:
                         app.model.DetailsPanelBarracksSprite.SetActive(true);
                         app.model.DetailsPanelPowerPlantSprite.SetActive(false);
+                        app.model.DetailsPanelSoldierSprite.SetActive(false);
                         break;
                     case MapItem.Type.PowerPlant:
                         app.model.DetailsPanelBarracksSprite.SetActive(false);
                         app.model.DetailsPanelPowerPlantSprite.SetActive(true);
+                        app.model.DetailsPanelSoldierSprite.SetActive(false);
                         break;
                     case MapItem.Type.Soldier:
                         app.model.DetailsPanelBarracksSprite.SetActive(false);
                         app.model.DetailsPanelPowerPlantSprite.SetActive(false);
+                        app.model.DetailsPanelSoldierSprite.SetActive(true);
                         break;
                     default:
                         app.model.DetailsPanelBarracksSprite.SetActive(false);
                         app.model.DetailsPanelBarracksSprite.SetActive(false);
+                        app.model.DetailsPanelSoldierSprite.SetActive(false);
                         break;
                 }
             }
