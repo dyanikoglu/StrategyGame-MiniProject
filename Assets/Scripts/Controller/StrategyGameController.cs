@@ -151,6 +151,18 @@ public class StrategyGameController : Controller<StrategyGameApplication>
             }
                 break;
 
+            case "constructionPanel.scrollUp":
+            {
+                print("Scroll up");
+            }
+                break;
+
+            case "constructionPanel.scrollDown":
+            {
+                print("Scroll down");
+            }
+                break;
+
             case "constructionPanel.start":
             {
                 // Spawn buttons on construction panel

@@ -6,7 +6,7 @@ using thelab.mvc;
 public abstract class ConstructionButtonView : View<StrategyGameApplication> {
 
     //Variables
-    public int _id;
+    private int _id;
 
     // Features
     public int GetID()

@@ -7,7 +7,7 @@ public abstract class MapItemView : View<StrategyGameApplication> {
 
     // Variables
     private bool _isPlacedOnMap = false;
-    public int _id;
+    private int _id;
 
     // Features
     public bool GetIsPlacedOnMap()
