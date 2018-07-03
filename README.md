@@ -16,6 +16,16 @@ A pseudo 2D strategy game developed with Unity.
 
 - http://cnc.wikia.com/wiki/File:Allied_Barrack_animation_1.gif
 
+- https://www.deviantart.com/mieshanovakov/art/Silhouette-of-soldier-544326919
+
+- https://opengameart.org/content/animated-top-down-survivor-player
+
+## Source Code References
+
+- A* Algorithm: https://github.com/valantonini/AStar
+
+- Unity MVC Pattern: https://bitbucket.org/eduardo_costa/thelab-unity-mvc/
+
 ## Licence
 
 Copyright (C) 2018 Doğa Can YANIKOĞLU
