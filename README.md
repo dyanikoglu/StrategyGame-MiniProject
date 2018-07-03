@@ -6,9 +6,11 @@ A pseudo 2D strategy game developed with Unity.
 
 ## Image References
 
-http://pixelartmaker.com/art/81589b4485c43c1
-https://www.onlinewebfonts.com/icon/546785
-https://pixabay.com/en/power-energy-bolt-connector-jack-306141/
+- http://pixelartmaker.com/art/81589b4485c43c1
+
+- https://www.onlinewebfonts.com/icon/546785
+
+- https://pixabay.com/en/power-energy-bolt-connector-jack-306141/
 
 ## Licence
 
