@@ -439,7 +439,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ddcf2ff014c075e46ba934bd78cea9b4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  PathFinder: {fileID: 0}
   Map: {fileID: 718341}
   MapItemsContainer: {fileID: 1503331219}
   Camera: {fileID: 519420028}
@@ -639,7 +638,7 @@ MonoBehaviour:
   YOffset: 75
   XSpacing: 75
   YSpacing: 75
-  RowCount: 9
+  RowCount: 12
 --- !u!1 &139077452
 GameObject:
   m_ObjectHideFlags: 0
