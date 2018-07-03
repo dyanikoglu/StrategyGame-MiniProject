@@ -8,10 +8,10 @@ public class CameraView : View<StrategyGameApplication>
     // Variables
     private Vector3 _origin = Vector3.zero;
     private Vector3 _difference = Vector3.zero;
-    private bool _currentlyDragging = false;
+    private Vector3 lastFrameMousePos = Vector3.zero;
 
     // Features
-    public void Pan()
+    private void Pan()
     {
         // If left mouse is pressed and camera is available to drag, start dragging
         if (Input.GetMouseButton(0) && app.model.CameraCanBeDragged)
@@ -21,14 +21,15 @@ public class CameraView : View<StrategyGameApplication>
 
             _difference = (mainCameraRef.ScreenToWorldPoint(Input.mousePosition)) -
                           mainCameraRef.transform.position;
-            if (!_currentlyDragging)
+
+            if (!app.model.CameraIsCurrentlyDragging && lastFrameMousePos != Input.mousePosition)
             {
-                _currentlyDragging = true;
+                app.model.CameraIsCurrentlyDragging = true;
                 _origin = mainCameraRef.ScreenToWorldPoint(Input.mousePosition);
             }
 
             // Update drag position
-            if (_currentlyDragging)
+            if (app.model.CameraIsCurrentlyDragging)
             {
                 mainCameraRef.transform.position = _origin - _difference;
             }
@@ -47,7 +48,7 @@ public class CameraView : View<StrategyGameApplication>
         // Camera is not available to drag
         else if (!Input.GetMouseButton(0))
         {
-            _currentlyDragging = false;
+            app.model.CameraIsCurrentlyDragging = false;
         }
     }
 
@@ -55,10 +56,13 @@ public class CameraView : View<StrategyGameApplication>
     private void LateUpdate()
     {
         Pan();
+        lastFrameMousePos = Input.mousePosition;
     }
 
     private void Start()
     {
+        lastFrameMousePos = Input.mousePosition;
+        app.model.CameraIsCurrentlyDragging = false;
         app.model.CameraCanBeDragged = true;
     }
 }

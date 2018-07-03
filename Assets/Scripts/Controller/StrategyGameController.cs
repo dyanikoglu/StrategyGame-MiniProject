@@ -23,37 +23,46 @@ public class StrategyGameController : Controller<StrategyGameApplication>
 
             case "map.onHoverEnd":
             {
-                app.model.CameraCanBeDragged = false;
+                // app.model.CameraCanBeDragged = false;
                 app.view.Map.SetFocused(false);
             }
                 break;
 
             case "map.onLeftClicked":
             {
-                // Hide Details Panel
-                app.view.DetailsPanel.HidePanel();
+                // Hide Details Panel and set selected item to null if camera is not on drag mode
+                if (!app.model.CameraIsCurrentlyDragging)
+                {
+                    app.view.DetailsPanel.HidePanel();
+                    app.model.SelectedItem = null;
+                }
+
             }
                 break;
 
             case "map.onRightClicked":
             {
-                if (app.model.selectedItem.GetComponent<SoldierView>())
+                // If a soldier is currently selected
+                if (app.model.SelectedItem.GetComponent<SoldierView>())
                 {
                     var calculatedPath = app.model.PathFinder.FindPath(new AStar.Point(
-                            (int) app.model.selectedItem.GetComponent<RectTransform>().anchoredPosition.x,
-                            (int) app.model.selectedItem.GetComponent<RectTransform>().anchoredPosition.y),
+                            (int) app.model.SelectedItem.GetComponent<RectTransform>().anchoredPosition.x,
+                            (int) app.model.SelectedItem.GetComponent<RectTransform>().anchoredPosition.y),
                         new AStar.Point((int) Camera.main.ScreenToWorldPoint(Input.mousePosition).x,
                             (int) Camera.main.ScreenToWorldPoint(Input.mousePosition).y)
                     );
-                    
-                    // Reverse the path
-                    calculatedPath.Reverse();
-                    // Remove start position
-                    calculatedPath.RemoveAt(0);
-                    
-                    // Start movement
-                    app.model.selectedItem.GetComponent<SoldierView>().StartMovementToDestination(calculatedPath);
-                    
+
+                    // If a path is calculated successfully
+                    if (calculatedPath != null)
+                    {
+                        // Reverse the path
+                        calculatedPath.Reverse();
+                        // Remove start position (Unnecessary)
+                        calculatedPath.RemoveAt(0);
+
+                        // Start movement
+                        app.model.SelectedItem.GetComponent<SoldierView>().StartMovementToDestination(calculatedPath);
+                    }
                 }
             }
                 break;
@@ -92,9 +101,9 @@ public class StrategyGameController : Controller<StrategyGameApplication>
                 var newSoldier = app.view.MapItemFactory.CreateNewMapItem(MapItem.Type.Soldier, app.model.SoldierID++);
 
                 // If a barracks map item is still selected, spawn this new soldier near it on closest available tile. Otherwise, destroy it back.
-                if ((BarracksBuildingView) app.model.selectedItem)
+                if ((BarracksBuildingView) app.model.SelectedItem)
                 {
-                    var barracksPosition = app.model.selectedItem.GetComponent<RectTransform>().anchoredPosition;
+                    var barracksPosition = app.model.SelectedItem.GetComponent<RectTransform>().anchoredPosition;
                     // If we can't find a tile to spawn this soldier, destroy it back
                     if (!newSoldier.GetComponent<SoldierView>().FindATileToSpawn(barracksPosition))
                     {
@@ -141,9 +150,9 @@ public class StrategyGameController : Controller<StrategyGameApplication>
 
             case "barracksBuilding.onClicked":
             {
-                // Set details panel information from clicked object
+                // Set details panel information from clicked map item
                 app.view.DetailsPanel.SetDetails(MapItem.Type.Barracks, (int) pData[0]);
-                app.model.selectedItem = (MapItemView) pTarget;
+                app.model.SelectedItem = (MapItemView) pTarget;
                 app.model.DetailsPanelSoldierButton.SetActive(true);
                 app.view.DetailsPanel.ShowPanel();
             }
@@ -151,10 +160,9 @@ public class StrategyGameController : Controller<StrategyGameApplication>
 
             case "powerplantBuilding.onClicked":
             {
-                // Set details panel information from clicked object
-
+                // Set details panel information from clicked map item
                 app.view.DetailsPanel.SetDetails(MapItem.Type.PowerPlant, (int) pData[0]);
-                app.model.selectedItem = (MapItemView) pTarget;
+                app.model.SelectedItem = (MapItemView) pTarget;
                 app.model.DetailsPanelSoldierButton.SetActive(false);
                 app.view.DetailsPanel.ShowPanel();
             }
@@ -162,17 +170,24 @@ public class StrategyGameController : Controller<StrategyGameApplication>
 
             case "soldierMapItem.onClicked":
             {
+                // Set details panel information from clicked map item
                 app.view.DetailsPanel.SetDetails(MapItem.Type.Soldier, (int) pData[0]);
-                app.model.selectedItem = (MapItemView) pTarget;
+                app.model.SelectedItem = (MapItemView) pTarget;
                 app.model.DetailsPanelSoldierButton.SetActive(false);
                 app.view.DetailsPanel.ShowPanel();
-                // TODO
             }
                 break;
             // Map Item Notifications End
 
 
             // Panel Notifications Start
+            case "panel.onHoverStart":
+            {
+                // If we're hovering the panel, do not pan the camera anymore
+                app.model.CameraCanBeDragged = false;
+            }
+                break;
+
             case "panel.onAnimationPlaying":
             {
                 // Keep animating the panel
@@ -193,9 +208,11 @@ public class StrategyGameController : Controller<StrategyGameApplication>
             case "constructionPanel.scrollUp":
             {
                 // Check if scrollUp is available (Check if upper button has id 0)
-                foreach (var buttonView in app.model.ConstructionButtonPool.GetComponentsInChildren<ConstructionButtonView>())
+                foreach (var buttonView in app.model.ConstructionButtonPool
+                    .GetComponentsInChildren<ConstructionButtonView>())
                 {
-                    if (buttonView.GetID() == 0 && buttonView.GetComponent<RectTransform>().anchoredPosition.y == -app.view.ConstructionPanel.YSpacing)
+                    if (buttonView.GetID() == 0 && buttonView.GetComponent<RectTransform>().anchoredPosition.y ==
+                        -app.view.ConstructionPanel.YSpacing)
                     {
                         return;
                     }
@@ -233,7 +250,7 @@ public class StrategyGameController : Controller<StrategyGameApplication>
                 }
             }
                 break;
-            
+
             // Move buttons in button pool down
             case "constructionPanel.scrollDown":
             {
@@ -251,10 +268,13 @@ public class StrategyGameController : Controller<StrategyGameApplication>
                     if (buttonRectTransform.anchoredPosition.y >= 0)
                     {
                         buttonRectTransform.anchoredPosition =
-                            new Vector2(buttonRectTransform.anchoredPosition.x, contentRecTransform.anchoredPosition.y - app.view.ConstructionPanel.YOffset / 2);
+                            new Vector2(buttonRectTransform.anchoredPosition.x,
+                                contentRecTransform.anchoredPosition.y - app.view.ConstructionPanel.YOffset / 2);
 
                         // Advance the id of the reused object
-                        buttonRectTransform.GetComponent<ConstructionButtonView>().SetID(buttonRectTransform.GetComponent<ConstructionButtonView>().GetID() + app.view.ConstructionPanel.RowCount);
+                        buttonRectTransform.GetComponent<ConstructionButtonView>().SetID(
+                            buttonRectTransform.GetComponent<ConstructionButtonView>().GetID() +
+                            app.view.ConstructionPanel.RowCount);
                     }
 
                     // Fix for content canvas self-movement

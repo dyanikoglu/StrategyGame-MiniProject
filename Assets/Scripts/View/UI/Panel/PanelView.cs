@@ -56,4 +56,9 @@ public class PanelView : View<StrategyGameApplication> {
             Notify("panel.onAnimationPlaying");
         }
     }
+
+    public void OnHoverStart()
+    {
+        Notify("panel.onHoverStart");
+    }
 }

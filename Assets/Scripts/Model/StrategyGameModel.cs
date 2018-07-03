@@ -7,8 +7,8 @@ using thelab.mvc;
 
 public class StrategyGameModel : Model<StrategyGameApplication>
 {
-    // Path Finder Initialization
-    [HideInInspector] public PathFinder PathFinder = new PathFinder(AStar.Tools.CreateMatrix(128));
+    // Define Path Finder
+    public PathFinder PathFinder;
 
     // Runtime Gameobject References
     [Header("Runtime Gameobject References")]
@@ -31,13 +31,16 @@ public class StrategyGameModel : Model<StrategyGameApplication>
     public GameObject BarracksBuilding;
     public GameObject SoldierMapItem;
 
-    // Global
+    // Global Model Variables
     [HideInInspector] public bool CameraCanBeDragged;
     [HideInInspector] public int BarracksID;
     [HideInInspector] public int PowerPlantID;
     [HideInInspector] public int SoldierID;
-    [HideInInspector] public MapItemView selectedItem;
+    [HideInInspector] public MapItemView SelectedItem;
+    [HideInInspector] public bool CameraIsCurrentlyDragging;
 
     // Game Settings
+    [Header("Soldier Preferences")]
     public float SoldierMovementSpeed;
+    public bool SoldierCanMoveDiagonal;
 }

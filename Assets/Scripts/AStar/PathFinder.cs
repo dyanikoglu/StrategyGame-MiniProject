@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace AStar
 {
-    public class PathFinder : MonoBehaviour, IPathFinder
+    public class PathFinder : IPathFinder
     {
         private readonly byte[,] _grid;
         private readonly IPriorityQueue<int> _open;
@@ -81,12 +81,6 @@ namespace AStar
         {
             lock (this)
             {
-
-                // Is faster if we don't clear the matrix, just assign different values for open and close and ignore the rest
-                // I could have user Array.Clear() but using unsafe code is faster, no much but it is.
-                //fixed (PathFinderNodeFast* pGrid = tmpGrid) 
-                //    ZeroMemory((byte*) pGrid, sizeof(PathFinderNodeFast) * 1000000);
-
                 var found = false;
                 var closedNodeCounter = 0;
                 _openNodeValue += 2;
@@ -212,19 +206,8 @@ namespace AStar
                         }
                         _mCalcGrid[newLocation].F = newG + h;
 
-                        //It is faster if we leave the open node in the priority queue
-                        //When it is removed, it will be already closed, it will be ignored automatically
-                        //if (tmpGrid[newLocation].Status == 1)
-                        //{
-                        //    //int removeX   = newLocation & gridXMinus1;
-                        //    //int removeY   = newLocation >> gridYLog2;
-                        //    mOpen.RemoveLocation(newLocation);
-                        //}
-
-                        //if (tmpGrid[newLocation].Status != 1)
-                        //{
                         _open.Push(newLocation);
-                        //}
+
                         _mCalcGrid[newLocation].Status = _openNodeValue;
                     }
 

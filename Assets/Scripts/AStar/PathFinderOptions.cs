@@ -48,7 +48,7 @@
         {
             Formula = HeuristicFormula.Manhattan;
             HeuristicEstimate = 2;
-            SearchLimit = 10000;
+            SearchLimit = 200;
             Diagonals = true;
         }
     }
