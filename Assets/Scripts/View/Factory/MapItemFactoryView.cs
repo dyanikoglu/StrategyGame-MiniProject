@@ -12,17 +12,17 @@ public class MapItemFactoryView : View<StrategyGameApplication> {
         switch (mapItemType)
         {
             case MapItem.Type.Barracks:
-                var newBarracks = Instantiate(app.model.BarracksBuilding, app.model.Map.transform);
+                var newBarracks = Instantiate(app.model.BarracksBuilding, app.model.MapItemsContainer.transform);
                 newBarracks.GetComponent<MapItemView>().SetID(id);
                 newBarracks.GetComponent<BuildingView>().OnBuildModeStart();
                 return newBarracks;
             case MapItem.Type.PowerPlant:
-                var newPowerPlant = Instantiate(app.model.PowerPlantBuilding, app.model.Map.transform);
+                var newPowerPlant = Instantiate(app.model.PowerPlantBuilding, app.model.MapItemsContainer.transform);
                 newPowerPlant.GetComponent<MapItemView>().SetID(id);
                 newPowerPlant.GetComponent<BuildingView>().OnBuildModeStart();
                 return newPowerPlant;
             case MapItem.Type.Soldier:
-                var newSoldier = Instantiate(app.model.SoldierMapItem, app.model.Map.transform);
+                var newSoldier = Instantiate(app.model.SoldierMapItem, app.model.MapItemsContainer.transform);
                 newSoldier.GetComponent<MapItemView>().SetID(id);
                 return newSoldier;
             default:

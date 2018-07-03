@@ -25,6 +25,7 @@ GameObject:
   - component: {fileID: 114718389271525884}
   - component: {fileID: 50357797832579948}
   - component: {fileID: 114868249568512776}
+  - component: {fileID: 61683151043678750}
   m_Layer: 0
   m_Name: PowerPlant_2D
   m_TagString: Untagged
@@ -68,7 +69,7 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 1
   m_Constraints: 0
---- !u!61 &61812292976078568
+--- !u!61 &61683151043678750
 BoxCollider2D:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -78,6 +79,31 @@ BoxCollider2D:
   m_Density: 1
   m_Material: {fileID: 0}
   m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 1.0026057, y: 1.4945579}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0, y: 0}
+    oldSize: {x: 2, y: 3}
+    newSize: {x: 2, y: 3}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 1.9218299, y: 2.927503}
+  m_EdgeRadius: 0
+--- !u!61 &61812292976078568
+BoxCollider2D:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1142440015888622}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: 1.0026057, y: 1.4945579}
@@ -104,7 +130,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6127f06c6b5ec3f46939ff8bd51518d8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _id: 0
   BackgroundSpriteRef: {fileID: 212825271697297186}
 --- !u!114 &114868249568512776
 MonoBehaviour:

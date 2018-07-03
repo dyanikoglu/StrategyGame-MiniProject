@@ -14,10 +14,30 @@ public class StrategyGameController : Controller<StrategyGameApplication>
         switch (pEvent)
         {
             // Map Notifications Start
-            case "map.onClicked":
+            case "map.onHoverStart":
+            {
+                app.model.CameraCanBeDragged = true;
+                app.view.Map.SetFocused(true);
+            }
+                break;
+
+            case "map.onHoverEnd":
+            {
+                app.model.CameraCanBeDragged = false;
+                app.view.Map.SetFocused(false);
+            }
+                break;
+
+            case "map.onLeftClicked":
             {
                 // Hide Details Panel
                 app.view.DetailsPanel.HidePanel();
+            }
+                break;
+
+            case "map.onRightClicked":
+            {
+                // Move soldier unit
             }
                 break;
             // Map Notifications End

@@ -5,21 +5,38 @@ using thelab.mvc;
 
 public class MapView : View<StrategyGameApplication>
 {
+    // Variables
+    private bool _focused = false;
+
+    // Features
+    public void SetFocused(bool b)
+    {
+        _focused = b;
+    }
 
     // Events
-    public void OnPointerEnter()
+    public void OnHoverStart()
     {
-        app.model.CameraCanBeDragged = true;
+        Notify("map.onHoverStart");
     }
 
-    public void OnPointerExit()
+    public void OnHoverEnd()
     {
-        app.model.CameraCanBeDragged = false;
+        Notify("map.onHoverEnd");
     }
 
-    public void OnClicked()
+    private void Update()
     {
-        Notify("map.onClicked");
-    }
+        if (!_focused) return;
 
+        if (Input.GetMouseButtonDown(1))
+        {
+            Notify("map.onRightClicked");
+        }
+
+        if (Input.GetMouseButtonDown(0))
+        {
+            Notify("map.onLeftClicked");
+        }
+    }
 }

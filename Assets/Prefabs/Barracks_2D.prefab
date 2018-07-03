@@ -41,6 +41,7 @@ GameObject:
   - component: {fileID: 114814322209300320}
   - component: {fileID: 50509995373259182}
   - component: {fileID: 114666845164959556}
+  - component: {fileID: 61114004958760326}
   m_Layer: 0
   m_Name: Barracks_2D
   m_TagString: Untagged
@@ -68,6 +69,31 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 1
   m_Constraints: 0
+--- !u!61 &61114004958760326
+BoxCollider2D:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1973985664892044}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 1.4939489, y: 1.5002804}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0, y: 0}
+    oldSize: {x: 3, y: 3}
+    newSize: {x: 2, y: 3}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 2.9285302, y: 2.9321837}
+  m_EdgeRadius: 0
 --- !u!61 &61145590476959900
 BoxCollider2D:
   m_ObjectHideFlags: 1
@@ -134,7 +160,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ea94b97471393ab4c89e6440020c3cb0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _id: 0
   BackgroundSpriteRef: {fileID: 212256626753388866}
 --- !u!212 &212256626753388866
 SpriteRenderer:
@@ -280,6 +305,6 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0.057934105, y: 0.05644071}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 3, y: 3}
   m_Pivot: {x: -0, y: -0}

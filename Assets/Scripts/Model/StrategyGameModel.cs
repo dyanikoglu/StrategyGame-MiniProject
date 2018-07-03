@@ -10,6 +10,7 @@ public class StrategyGameModel : Model<StrategyGameApplication>
     // Runtime Gameobject References
     [Header("Runtime Gameobject References")]
     public GameObject Map;
+    public GameObject MapItemsContainer;
     public GameObject Camera;
     public GameObject ConstructionButtonPool;
     public Text DetailsPanelText;
@@ -17,6 +18,7 @@ public class StrategyGameModel : Model<StrategyGameApplication>
     public GameObject DetailsPanelPowerPlantSprite;
     public GameObject DetailsPanelSoldierSprite;
     public GameObject DetailsPanelSoldierButton;
+    
 
     // Prefab References
     [Header("Prefab References")]

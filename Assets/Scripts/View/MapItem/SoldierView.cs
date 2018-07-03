@@ -4,6 +4,10 @@ using UnityEngine;
 
 public class SoldierView : MapItemView
 {
+    // Variables
+    private List<Vector2> _openList;
+    private List<Vector2> _closedList;
+
     // Features
     public bool FindATileToSpawn(Vector2 barracksPosition)
     {
@@ -40,46 +44,48 @@ public class SoldierView : MapItemView
                 }
             }
 
-            if (i == (int)searchStartPosition.x + edgeLength - 1)
+            // We haven't reached end of the horizontal edge, keep going
+            if (i != (int) searchStartPosition.x + edgeLength - 1) continue;
+
+            // Horizontal edge is full, try searching tiles on vertical edge
+            for (var j = (int)searchStartPosition.y; j < (int)searchStartPosition.y + edgeLength; j++)
             {
-                for (var j = (int)searchStartPosition.y; j < (int)searchStartPosition.y + edgeLength; j++)
+                // Check if tile is empty
+                hit = Physics2D.Raycast(new Vector2(i + 0.5f, j + 0.5f),
+                    -Vector2.up);
+                if (hit.collider != null)
                 {
-                    // Check if tile is empty
-                    hit = Physics2D.Raycast(new Vector2(i + 0.5f, j + 0.5f),
-                        -Vector2.up);
-                    if (hit.collider != null)
+                    // Tile is available
+                    if (hit.collider.GetComponent<MapView>())
                     {
-                        // Tile is available
-                        if (hit.collider.GetComponent<MapView>())
-                        {
-                            GetComponent<RectTransform>().anchoredPosition = new Vector2(i, j);
-                            return true;
-                        }
-                    }
-
-                    // Check symmetric position
-                    hit = Physics2D.Raycast(new Vector2(i - (edgeLength - 1) + 0.5f, j + 0.5f),
-                        -Vector2.up);
-                    if (hit.collider != null)
-                    {
-                        // Tile is available
-                        if (hit.collider.GetComponent<MapView>())
-                        {
-                            GetComponent<RectTransform>().anchoredPosition =
-                                new Vector2(i - (edgeLength - 1), j);
-                            return true;
-                        }
-                    }
-
-                    if (j == (int)searchStartPosition.y + edgeLength - 1)
-                    {
-                        edgeLength += 2;
-                        searchStartPosition = new Vector2(searchStartPosition.x - 1,
-                            searchStartPosition.y - 1);
-                        i = (int)searchStartPosition.x - 1;
-                        break;
+                        GetComponent<RectTransform>().anchoredPosition = new Vector2(i, j);
+                        return true;
                     }
                 }
+
+                // Check symmetric position
+                hit = Physics2D.Raycast(new Vector2(i - (edgeLength - 1) + 0.5f, j + 0.5f),
+                    -Vector2.up);
+                if (hit.collider != null)
+                {
+                    // Tile is available
+                    if (hit.collider.GetComponent<MapView>())
+                    {
+                        GetComponent<RectTransform>().anchoredPosition =
+                            new Vector2(i - (edgeLength - 1), j);
+                        return true;
+                    }
+                }
+
+                // We haven't reached end of the horizontal edge, keep going
+                if (j != (int) searchStartPosition.y + edgeLength - 1) continue;
+
+                // Increase edge length, restart the empty tile search algorithm with new value
+                edgeLength += 2;
+                searchStartPosition = new Vector2(searchStartPosition.x - 1,
+                    searchStartPosition.y - 1);
+                i = (int)searchStartPosition.x - 1;
+                break;
             }
         }
 

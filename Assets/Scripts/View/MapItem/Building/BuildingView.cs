@@ -56,7 +56,7 @@ public abstract class BuildingView : MapItemView
             if (hit.collider != null)
             {
                 var orientedPoint = new Vector2((int)hit.point.x, (int)hit.point.y);
-                transform.position = orientedPoint;
+                transform.position = new Vector3(orientedPoint.x, orientedPoint.y, -1);
             }
 
             // Destroy the item with right click
