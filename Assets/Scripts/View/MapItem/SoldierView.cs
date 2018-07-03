@@ -1,12 +1,12 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using AStar;
 using UnityEngine;
 
 public class SoldierView : MapItemView
 {
     // Variables
-    private List<Vector2> _openList;
-    private List<Vector2> _closedList;
+    private IEnumerator _latestCoroutine = null;
 
     // Features
     public bool FindATileToSpawn(Vector2 barracksPosition)
@@ -91,6 +91,44 @@ public class SoldierView : MapItemView
 
         // No tile to spawn, return false
         return false;
+    }
+
+    private void StopLatestCoroutine()
+    {
+        if (_latestCoroutine != null)
+        {
+            StopCoroutine(_latestCoroutine);
+        }
+    }
+
+    public void StartMovementToDestination(List<PathFinderNode> foundPath)
+    {
+        // Stop it if any movement in progress
+        StopLatestCoroutine();
+
+        // Keep a reference to latest coroutine to be able to stop it in the future
+        _latestCoroutine = Advance(foundPath);
+        StartCoroutine(_latestCoroutine);
+    }
+
+    private IEnumerator Advance(IList<PathFinderNode> foundPath, int currentStep = 0)
+    {
+        // We reached to destination, quit
+        if (currentStep == foundPath.Count)
+        {
+            yield break;
+        }
+
+        // Move to next node in path
+        var nextNode = foundPath[currentStep++];
+        GetComponent<RectTransform>().anchoredPosition = new Vector2(nextNode.X, nextNode.Y);
+
+        // Wait a little
+        yield return new WaitForSeconds(1.0f / app.model.SoldierMovementSpeed);
+
+        // Keep a reference to latest coroutine to be able to stop it in the future
+        _latestCoroutine = Advance(foundPath, currentStep);
+        StartCoroutine(_latestCoroutine);
     }
 
     // Events

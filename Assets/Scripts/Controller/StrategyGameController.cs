@@ -1,12 +1,12 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using AStar;
 using UnityEngine;
 using thelab.mvc;
 
 public class StrategyGameController : Controller<StrategyGameApplication>
 {
-
     /// <inheritdoc />
     /// Handle notifications from the application.
     public override void OnNotification(string pEvent, Object pTarget, params object[] pData)
@@ -37,7 +37,24 @@ public class StrategyGameController : Controller<StrategyGameApplication>
 
             case "map.onRightClicked":
             {
-                // Move soldier unit
+                if (app.model.selectedItem.GetComponent<SoldierView>())
+                {
+                    var calculatedPath = app.model.PathFinder.FindPath(new AStar.Point(
+                            (int) app.model.selectedItem.GetComponent<RectTransform>().anchoredPosition.x,
+                            (int) app.model.selectedItem.GetComponent<RectTransform>().anchoredPosition.y),
+                        new AStar.Point((int) Camera.main.ScreenToWorldPoint(Input.mousePosition).x,
+                            (int) Camera.main.ScreenToWorldPoint(Input.mousePosition).y)
+                    );
+                    
+                    // Reverse the path
+                    calculatedPath.Reverse();
+                    // Remove start position
+                    calculatedPath.RemoveAt(0);
+                    
+                    // Start movement
+                    app.model.selectedItem.GetComponent<SoldierView>().StartMovementToDestination(calculatedPath);
+                    
+                }
             }
                 break;
             // Map Notifications End
