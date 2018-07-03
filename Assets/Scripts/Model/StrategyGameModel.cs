@@ -11,7 +11,7 @@ public class StrategyGameModel : Model<StrategyGameApplication>
     [Header("Runtime Gameobject References")]
     public GameObject Map;
     public GameObject Camera;
-    public GameObject ConstructionButtonContent;
+    public GameObject ConstructionButtonPool;
     public Text DetailsPanelText;
     public GameObject DetailsPanelBarracksSprite;
     public GameObject DetailsPanelPowerPlantSprite;

@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using thelab.mvc;
 
@@ -25,13 +26,13 @@ public class StrategyGameController : Controller<StrategyGameApplication>
             // Construction Button Notifications Start
             case "button.onHoverStart":
             {
-                ((ConstructionButtonView)pTarget).SetColor(Color.red);
+                ((ConstructionButtonView) pTarget).SetColor(Color.red);
             }
                 break;
 
             case "button.onHoverEnd":
             {
-                ((ConstructionButtonView)pTarget).SetColor(Color.white);
+                ((ConstructionButtonView) pTarget).SetColor(Color.white);
             }
                 break;
 
@@ -52,7 +53,7 @@ public class StrategyGameController : Controller<StrategyGameApplication>
             case "soldierButton.onClicked":
             {
                 var newSoldier = app.view.MapItemFactory.CreateNewMapItem(MapItem.Type.Soldier, app.model.SoldierID++);
-                
+
                 // If a barracks map item is still selected, spawn this new soldier near it on closest available tile. Otherwise, destroy it back.
                 if ((BarracksBuildingView) app.model.selectedItem)
                 {
@@ -151,16 +152,79 @@ public class StrategyGameController : Controller<StrategyGameApplication>
             }
                 break;
 
+            // Move buttons in button pool up
             case "constructionPanel.scrollUp":
             {
-                print("Scroll up");
+                // Check if scrollUp is available (Check if upper button has id 0)
+                foreach (var buttonView in app.model.ConstructionButtonPool.GetComponentsInChildren<ConstructionButtonView>())
+                {
+                    if (buttonView.GetID() == 0 && buttonView.GetComponent<RectTransform>().anchoredPosition.y == -app.view.ConstructionPanel.YSpacing)
+                    {
+                        return;
+                    }
+                }
+
+                var contentRecTransform = app.model.ConstructionButtonPool.GetComponent<RectTransform>();
+                var oldY = contentRecTransform.anchoredPosition.y;
+
+                // Move each button down
+                foreach (var buttonRectTransform in
+                    app.model.ConstructionButtonPool.GetComponentsInChildren<RectTransform>())
+                {
+                    buttonRectTransform.anchoredPosition = new Vector2(buttonRectTransform.anchoredPosition.x,
+                        buttonRectTransform.anchoredPosition.y - 5);
+
+                    // End of the panel reached, send it back to top (Object Pooling)
+                    if (buttonRectTransform.anchoredPosition.y <= oldY - app.view.ConstructionPanel.YOffset / 2)
+                    {
+                        // Check if reused object is going to be out of ID range
+                        if (buttonRectTransform.GetComponent<ConstructionButtonView>().GetID() -
+                            app.view.ConstructionPanel.RowCount >= 0)
+                        {
+                            buttonRectTransform.anchoredPosition =
+                                new Vector2(buttonRectTransform.anchoredPosition.x, 0);
+
+                            // Roll back the id of the reused object
+                            buttonRectTransform.GetComponent<ConstructionButtonView>().SetID(
+                                buttonRectTransform.GetComponent<ConstructionButtonView>().GetID() -
+                                app.view.ConstructionPanel.RowCount);
+                        }
+                    }
+
+                    // Fix for content canvas self-movement
+                    contentRecTransform.anchoredPosition = new Vector2(contentRecTransform.anchoredPosition.x, oldY);
+                }
             }
                 break;
-
+            
+            // Move buttons in button pool down
             case "constructionPanel.scrollDown":
             {
-                print("Scroll down");
+                var contentRecTransform = app.model.ConstructionButtonPool.GetComponent<RectTransform>();
+                var oldY = contentRecTransform.anchoredPosition.y;
+
+                // Move each button up
+                foreach (var buttonRectTransform in
+                    app.model.ConstructionButtonPool.GetComponentsInChildren<RectTransform>())
+                {
+                    buttonRectTransform.anchoredPosition = new Vector2(buttonRectTransform.anchoredPosition.x,
+                        buttonRectTransform.anchoredPosition.y + 5);
+
+                    // End of the panel reached, send it back to bottom (Object Pooling)
+                    if (buttonRectTransform.anchoredPosition.y >= 0)
+                    {
+                        buttonRectTransform.anchoredPosition =
+                            new Vector2(buttonRectTransform.anchoredPosition.x, contentRecTransform.anchoredPosition.y - app.view.ConstructionPanel.YOffset / 2);
+
+                        // Advance the id of the reused object
+                        buttonRectTransform.GetComponent<ConstructionButtonView>().SetID(buttonRectTransform.GetComponent<ConstructionButtonView>().GetID() + app.view.ConstructionPanel.RowCount);
+                    }
+
+                    // Fix for content canvas self-movement
+                    contentRecTransform.anchoredPosition = new Vector2(contentRecTransform.anchoredPosition.x, oldY);
+                }
             }
+
                 break;
 
             case "constructionPanel.start":

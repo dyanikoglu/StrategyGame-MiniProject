@@ -10,13 +10,13 @@ public class ButtonFactoryView : View<StrategyGameApplication> {
     {
         if (buttonType.Equals("Barracks"))
         {
-            var newObject = Instantiate(app.model.BarracksButton, app.model.ConstructionButtonContent.transform);
+            var newObject = Instantiate(app.model.BarracksButton, app.model.ConstructionButtonPool.transform);
             newObject.GetComponent<ConstructionButtonView>().SetID(app.model.BarracksID++);
             return newObject;
         }
         else if (buttonType.Equals("PowerPlant"))
         {
-            var newObject = Instantiate(app.model.PowerPlantButton, app.model.ConstructionButtonContent.transform);
+            var newObject = Instantiate(app.model.PowerPlantButton, app.model.ConstructionButtonPool.transform);
             newObject.GetComponent<ConstructionButtonView>().SetID(app.model.PowerPlantID++);
             return newObject;
         }
