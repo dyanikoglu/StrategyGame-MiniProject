@@ -12,6 +12,10 @@ A pseudo 2D strategy game developed with Unity.
 
 - https://pixabay.com/en/power-energy-bolt-connector-jack-306141/
 
+- http://cnc.wikia.com/wiki/File:Power_plant_animation_1.gif
+
+- http://cnc.wikia.com/wiki/File:Allied_Barrack_animation_1.gif
+
 ## Licence
 
 Copyright (C) 2018 Doğa Can YANIKOĞLU
