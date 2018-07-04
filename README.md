@@ -4,6 +4,18 @@
 
 A pseudo 2D strategy game developed with Unity.
 
+## Features
+
+- Camera can be dragged by holding down **Mouse Left Button**.
+
+- Left panel can be scrolled down infinitely.
+
+- Soldiers are using A* pathfinding algorithm. Pathfinding behaviour can be optimized from **model** object on scene.
+
+- Barracks can spawn unlimited amount of soldiers if **EdgeLength** variable in model object is set to a big value. Spawned soldiers won't overlap other items on map.
+
+- ...
+
 ## Image References
 
 - http://pixelartmaker.com/art/81589b4485c43c1
