@@ -46,6 +46,6 @@ public class MapView : View<StrategyGameApplication>
     private void Start()
     {
         // Initialize pathfinder
-        app.model.PathFinder = new PathFinder(AStar.Tools.CreateMatrix(128), new PathFinderOptions() {Diagonals = app.model.SoldierCanMoveDiagonal});
+        app.model.PathFinder = new PathFinder(AStar.Tools.CreateMatrix(128), new PathFinderOptions() {Diagonals = app.model.SoldierCanMoveDiagonal, SearchLimit = app.model.PathfindingTileSearchLimit });
     }
 }

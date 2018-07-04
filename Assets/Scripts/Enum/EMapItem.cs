@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class MapItem {
+public class EMapItem {
     public enum Type
     {
         Barracks,

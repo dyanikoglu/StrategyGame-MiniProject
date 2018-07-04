@@ -1,7 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using thelab.mvc;
 
 public abstract class BuildingView : MapItemView
 {
@@ -43,6 +42,15 @@ public abstract class BuildingView : MapItemView
     }
 
     // Events
+    private void Start()
+    {
+        if (!_isOnBuildMode)
+        {
+            Notify("building.onBuildModeStart");
+            SetIsOnBuildMode(true);
+        }
+    }
+
     private void Update()
     {
         if (!GetIsPlacedOnMap() && _isOnBuildMode)
@@ -70,12 +78,6 @@ public abstract class BuildingView : MapItemView
                 OnBuildModeEnd(true);
             }
         }
-    }
-
-    public void OnBuildModeStart()
-    {
-        Notify("building.onBuildModeStart");
-        SetIsOnBuildMode(true);
     }
 
     public void OnBuildModeEnd(bool buildToCurrentPlace)

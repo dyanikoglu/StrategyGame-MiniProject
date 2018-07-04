@@ -1,7 +1,5 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
-using AStar;
 using UnityEngine;
 using thelab.mvc;
 
@@ -85,20 +83,26 @@ public class StrategyGameController : Controller<StrategyGameApplication>
             case "barracksButton.onClicked":
             {
                 // Spawn new barracks building
-                app.view.MapItemFactory.CreateNewMapItem(MapItem.Type.Barracks, (int) pData[0]);
+                var newBuilding = MapItemFactory.GetInstance().CreateNewMapItem(app.model.BarracksBuilding);
+                newBuilding.transform.SetParent(app.model.MapItemsContainer.transform, false);
+                newBuilding.GetComponent<BarracksBuildingView>().SetID((int) pData[0]);
             }
                 break;
 
             case "powerplantButton.onClicked":
             {
                 // Spawn new powerplant building
-                app.view.MapItemFactory.CreateNewMapItem(MapItem.Type.PowerPlant, (int) pData[0]);
+                var newBuilding = MapItemFactory.GetInstance().CreateNewMapItem(app.model.PowerPlantBuilding);
+                newBuilding.transform.SetParent(app.model.MapItemsContainer.transform, false);
+                newBuilding.GetComponent<PowerPlantBuildingView>().SetID((int) pData[0]);
             }
                 break;
 
             case "soldierButton.onClicked":
             {
-                var newSoldier = app.view.MapItemFactory.CreateNewMapItem(MapItem.Type.Soldier, app.model.SoldierID++);
+                var newSoldier = MapItemFactory.GetInstance().CreateNewMapItem(app.model.SoldierMapItem);
+                newSoldier.transform.SetParent(app.model.MapItemsContainer.transform, false);
+                newSoldier.GetComponent<SoldierView>().SetID(app.model.SoldierID++);
 
                 // If a barracks map item is still selected, spawn this new soldier near it on closest available tile. Otherwise, destroy it back.
                 if ((BarracksBuildingView) app.model.SelectedItem)
@@ -151,7 +155,7 @@ public class StrategyGameController : Controller<StrategyGameApplication>
             case "barracksBuilding.onClicked":
             {
                 // Set details panel information from clicked map item
-                app.view.DetailsPanel.SetDetails(MapItem.Type.Barracks, (int) pData[0]);
+                app.view.DetailsPanel.SetDetails(EMapItem.Type.Barracks, (int) pData[0]);
                 app.model.SelectedItem = (MapItemView) pTarget;
                 app.model.DetailsPanelSoldierButton.SetActive(true);
                 app.view.DetailsPanel.ShowPanel();
@@ -161,7 +165,7 @@ public class StrategyGameController : Controller<StrategyGameApplication>
             case "powerplantBuilding.onClicked":
             {
                 // Set details panel information from clicked map item
-                app.view.DetailsPanel.SetDetails(MapItem.Type.PowerPlant, (int) pData[0]);
+                app.view.DetailsPanel.SetDetails(EMapItem.Type.PowerPlant, (int) pData[0]);
                 app.model.SelectedItem = (MapItemView) pTarget;
                 app.model.DetailsPanelSoldierButton.SetActive(false);
                 app.view.DetailsPanel.ShowPanel();
@@ -171,7 +175,7 @@ public class StrategyGameController : Controller<StrategyGameApplication>
             case "soldierMapItem.onClicked":
             {
                 // Set details panel information from clicked map item
-                app.view.DetailsPanel.SetDetails(MapItem.Type.Soldier, (int) pData[0]);
+                app.view.DetailsPanel.SetDetails(EMapItem.Type.Soldier, (int) pData[0]);
                 app.model.SelectedItem = (MapItemView) pTarget;
                 app.model.DetailsPanelSoldierButton.SetActive(false);
                 app.view.DetailsPanel.ShowPanel();
@@ -193,12 +197,13 @@ public class StrategyGameController : Controller<StrategyGameApplication>
                 // Keep animating the panel
                 var rectTransform = ((PanelView) pTarget).GetComponent<RectTransform>();
                 rectTransform.anchoredPosition =
-                    new Vector2(Mathf.Lerp(rectTransform.anchoredPosition.x, ((PanelView) pTarget).GetTargetX(), 0.1f),
+                    new Vector2(Mathf.Lerp(rectTransform.anchoredPosition.x, ((PanelView) pTarget).GetTargetX(), app.model.PanelAnimationSpeed * Time.deltaTime),
                         rectTransform.anchoredPosition.y);
 
                 // Destination reached, stop animation
                 if (Mathf.Abs(((PanelView) pTarget).GetTargetX() - rectTransform.anchoredPosition.x) < 0.1f)
                 {
+                    rectTransform.anchoredPosition = new Vector2(((PanelView)pTarget).GetTargetX(), rectTransform.anchoredPosition.y);
                     ((PanelView) pTarget).SetIsAnimationOngoing(false);
                 }
             }
@@ -290,13 +295,20 @@ public class StrategyGameController : Controller<StrategyGameApplication>
 
                 for (var i = 0; i < app.view.ConstructionPanel.RowCount; i++)
                 {
-                    var obj = app.view.ButtonFactory.CreateNewButton("Barracks");
+                        // Put leftside barracks button, set id, set spacings and offset
+                        var obj = ButtonFactory.GetInstance().CreateNewButton(app.model.BarracksButton);
+                    obj.transform.SetParent(app.model.ConstructionButtonPool.transform, false);
+                    obj.GetComponent<BarracksButtonView>().SetID(app.model.BarracksID++);
+
                     obj.transform.localPosition = new Vector3(
                         obj.transform.localPosition.x + app.view.ConstructionPanel.XOffset,
                         obj.transform.localPosition.y - app.view.ConstructionPanel.YOffset -
                         app.view.ConstructionPanel.YSpacing * i, obj.transform.localPosition.z);
 
-                    obj = app.view.ButtonFactory.CreateNewButton("PowerPlant");
+                    // Put rightside powerplant button, set id, set spacings and offset
+                    obj = ButtonFactory.GetInstance().CreateNewButton(app.model.PowerPlantButton);
+                    obj.transform.SetParent(app.model.ConstructionButtonPool.transform, false);
+                    obj.GetComponent<PowerPlantButtonView>().SetID(app.model.PowerPlantID++);
                     obj.transform.localPosition = new Vector3(
                         obj.transform.localPosition.x + app.view.ConstructionPanel.XOffset +
                         app.view.ConstructionPanel.XSpacing,
@@ -314,17 +326,17 @@ public class StrategyGameController : Controller<StrategyGameApplication>
 
                 switch (app.view.DetailsPanel.GetDetailsType())
                 {
-                    case MapItem.Type.Barracks:
+                    case EMapItem.Type.Barracks:
                         app.model.DetailsPanelBarracksSprite.SetActive(true);
                         app.model.DetailsPanelPowerPlantSprite.SetActive(false);
                         app.model.DetailsPanelSoldierSprite.SetActive(false);
                         break;
-                    case MapItem.Type.PowerPlant:
+                    case EMapItem.Type.PowerPlant:
                         app.model.DetailsPanelBarracksSprite.SetActive(false);
                         app.model.DetailsPanelPowerPlantSprite.SetActive(true);
                         app.model.DetailsPanelSoldierSprite.SetActive(false);
                         break;
-                    case MapItem.Type.Soldier:
+                    case EMapItem.Type.Soldier:
                         app.model.DetailsPanelBarracksSprite.SetActive(false);
                         app.model.DetailsPanelPowerPlantSprite.SetActive(false);
                         app.model.DetailsPanelSoldierSprite.SetActive(true);
@@ -339,12 +351,8 @@ public class StrategyGameController : Controller<StrategyGameApplication>
                 break;
             // Panel Notifications End
 
-
-
             default:
-            {
                 // Do nothing
-            }
                 break;
         }
     }

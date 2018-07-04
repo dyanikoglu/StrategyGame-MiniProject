@@ -7,7 +7,7 @@ using thelab.mvc;
 
 public class StrategyGameModel : Model<StrategyGameApplication>
 {
-    // Define Path Finder
+    // Define Path Finder (Initialized in MapView)
     public PathFinder PathFinder;
 
     // Runtime Gameobject References
@@ -22,7 +22,6 @@ public class StrategyGameModel : Model<StrategyGameApplication>
     public GameObject DetailsPanelSoldierSprite;
     public GameObject DetailsPanelSoldierButton;
     
-
     // Prefab References
     [Header("Prefab References")]
     public GameObject PowerPlantButton;
@@ -33,9 +32,9 @@ public class StrategyGameModel : Model<StrategyGameApplication>
 
     // Global Model Variables
     [HideInInspector] public bool CameraCanBeDragged;
-    [HideInInspector] public int BarracksID;
-    [HideInInspector] public int PowerPlantID;
-    [HideInInspector] public int SoldierID;
+    [HideInInspector] public int BarracksID = 0;
+    [HideInInspector] public int PowerPlantID = 0;
+    [HideInInspector] public int SoldierID = 0;
     [HideInInspector] public MapItemView SelectedItem;
     [HideInInspector] public bool CameraIsCurrentlyDragging;
 
@@ -43,4 +42,8 @@ public class StrategyGameModel : Model<StrategyGameApplication>
     [Header("Soldier Preferences")]
     public float SoldierMovementSpeed;
     public bool SoldierCanMoveDiagonal;
+    public int PathfindingTileSearchLimit;
+    public int MaxSpawnEdgeLength;
+    [Header("UI Preferences")]
+    public float PanelAnimationSpeed;
 }

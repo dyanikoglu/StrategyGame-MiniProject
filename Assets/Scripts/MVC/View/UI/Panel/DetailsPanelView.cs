@@ -6,7 +6,7 @@ public class DetailsPanelView : PanelView
 {
     // Variables
     private string _detailsText;
-    private MapItem.Type _detailsType;
+    private EMapItem.Type _detailsType;
 
     // Features
     public string GetDetailsText()
@@ -14,19 +14,19 @@ public class DetailsPanelView : PanelView
         return _detailsText;
     }
 
-    public void SetDetails(MapItem.Type detailsType, int id)
+    public void SetDetails(EMapItem.Type detailsType, int id)
     {
         _detailsType = detailsType;
 
         switch (detailsType)
         {
-            case MapItem.Type.Barracks:
+            case EMapItem.Type.Barracks:
                 _detailsText = "Barracks #" + id;
                 break;
-            case MapItem.Type.PowerPlant:
+            case EMapItem.Type.PowerPlant:
                 _detailsText = "PowerPlant #" + id;
                 break;
-            case MapItem.Type.Soldier:
+            case EMapItem.Type.Soldier:
                 _detailsText = "Soldier #" + id;
                 break;
             default:
@@ -37,7 +37,7 @@ public class DetailsPanelView : PanelView
         OnDetailsChanged();
     }
 
-    public MapItem.Type GetDetailsType()
+    public EMapItem.Type GetDetailsType()
     {
         return _detailsType;
     }

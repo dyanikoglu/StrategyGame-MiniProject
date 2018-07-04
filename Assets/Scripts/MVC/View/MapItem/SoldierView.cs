@@ -9,6 +9,8 @@ public class SoldierView : MapItemView
     private IEnumerator _latestCoroutine = null;
 
     // Features
+
+    // Finds an empty tile to spawn around barrack given as parameter
     public bool FindATileToSpawn(Vector2 barracksPosition)
     {
         var searchStartPosition = barracksPosition - new Vector2(1, 1);
@@ -17,6 +19,12 @@ public class SoldierView : MapItemView
 
         for (var i = (int)searchStartPosition.x; i < (int)searchStartPosition.x + edgeLength; i++)
         {
+            // We reached to max. spawn edge length, stop searching
+            if (app.model.MaxSpawnEdgeLength < edgeLength)
+            {
+                break;
+            }
+
             // Check if tile is empty
             hit = Physics2D.Raycast(new Vector2(i + 0.5f, searchStartPosition.y + 0.5f), -Vector2.up);
             if (hit.collider != null)
@@ -103,7 +111,7 @@ public class SoldierView : MapItemView
 
     public void StartMovementToDestination(List<PathFinderNode> foundPath)
     {
-        // Stop it if any movement in progress
+        // Stop it if another movement coroutine already in progress
         StopLatestCoroutine();
 
         // Keep a reference to latest coroutine to be able to stop it in the future
@@ -124,7 +132,7 @@ public class SoldierView : MapItemView
         GetComponent<RectTransform>().anchoredPosition = new Vector2(nextNode.X, nextNode.Y);
 
         // Wait a little
-        yield return new WaitForSeconds(1.0f / app.model.SoldierMovementSpeed);
+        yield return new WaitForSeconds((1.0f / app.model.SoldierMovementSpeed) * Time.deltaTime);
 
         // Keep a reference to latest coroutine to be able to stop it in the future
         _latestCoroutine = Advance(foundPath, currentStep);
