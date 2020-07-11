@@ -12,21 +12,6 @@ A pseudo 2D strategy game developed with **pure MVC pattern** in Unity.
 
 - Barracks can spawn unlimited amount of soldiers if **EdgeLength** variable in model object is set to a big value. Spawned soldiers won't overlap other items on map.
 
-## Image References
-- http://pixelartmaker.com/art/81589b4485c43c1
-
-- https://www.onlinewebfonts.com/icon/546785
-
-- https://pixabay.com/en/power-energy-bolt-connector-jack-306141/
-
-- http://cnc.wikia.com/wiki/File:Power_plant_animation_1.gif
-
-- http://cnc.wikia.com/wiki/File:Allied_Barrack_animation_1.gif
-
-- https://www.deviantart.com/mieshanovakov/art/Silhouette-of-soldier-544326919
-
-- https://opengameart.org/content/animated-top-down-survivor-player
-
 ## Source Code References
 - A* Algorithm: https://github.com/valantonini/AStar
 
